@@ -10,69 +10,109 @@ function getComputerChoice(){
         return "scissor"
     }
 }
-// func to get user input
-function getHumanChoice(){
-    let val = prompt("Enter your input (rock, paper, scissor)");
-
-    return val.toLowerCase()
-
-}
 
 // vars to store both players scores
 let humanScore = 0;
 let computerScore = 0;
 
+// created dom element to modify
+
+let body = document.querySelector('body');
+let h3 = document.querySelector('h2');
+let title = document.querySelector('p');
+let stats = document.createElement('p');
+let g_round = document.createElement('h5');
+let result = document.createElement('p');
+let winner = document.createElement('h1');
+
+
+stats.textContent = `Player Score : ${humanScore}  Computer Score : ${computerScore}`;
+result.textContent ='';
+g_round.textContent = `Round ${0}`;
+winner.textContent = '';
+
+
+title.appendChild(stats);
+title.appendChild(result);
+h3.appendChild(g_round);
+body.appendChild(winner);
+
+body.style='align: center';
+
+
+
+
 //func to check who wins and add scores
 function playRound(hc, cc){
+    
+    if (humanScore < 5 && computerScore < 5){
+        i++;
+        console.log(hc,cc);
     if (hc == "rock" && cc == "scissor"){
-        console.log("You won! rock beats scissor");
-        humanScore += 1
+        result.textContent = `Your input ${hc} Computer is ${cc} You won! rock beats scissor`;
+        humanScore += 1;
+        stats.textContent = `Player Score : ${humanScore}  Computer Score : ${computerScore}`;
     }else if (hc == "scissor" && cc == "rock"){
-        console.log("You lose! rock beats scissor");
+        result.textContent = `Your input ${hc} Computer is ${cc} You lose! rock beats scissor`;
         computerScore += 1
+        stats.textContent = `Player Score : ${humanScore}  Computer Score : ${computerScore}`;
     }
     else if (hc == "scissor" && cc == "paper"){
-        console.log("You won! scissor beats paper");
+        result.textContent = `Your input ${hc} Computer is ${cc} You won! scissor beats paper`;
         humanScore += 1
+        stats.textContent = `Player Score : ${humanScore}  Computer Score : ${computerScore}`;
     }
     else if (hc == "paper" && cc == "scissor"){
-        console.log("You lose! scissor beats paper");
+        result.textContent = `Your input ${hc} Computer is ${cc} You lose! scissor beats paper`;
         computerScore += 1
+        stats.textContent = `Player Score : ${humanScore}  Computer Score : ${computerScore}`;
     }
     else if (hc == "paper" && cc == "rock"){
-        console.log("You won! paper beats rock");
+        result.textContent = `Your input ${hc} Computer is ${cc} You won! paper beats rock`;
         humanScore += 1
+        stats.textContent = `Player Score : ${humanScore}  Computer Score : ${computerScore}`;
     }
     else if (hc == "rock" && cc == "paper"){
-        console.log("You lose! paper beats rock");
+        result.textContent = `Your input ${hc} Computer is ${cc} You lose! paper beats rock`;
         computerScore += 1
+        stats.textContent = `Player Score : ${humanScore}  Computer Score : ${computerScore}`;
     }
     else{
-        console.log("It's a tie!!");
+        result.textContent = `Your input ${hc} Computer is ${cc} It's a tie!!!`;
     }
+}
+else{
+    if (humanScore == computerScore){
+        winner.textContent = 'Tie !!!';
+    }
+    else if (humanScore > computerScore){
+        winner.textContent = 'You won !!!';
+    }
+    else {
+        winner.textContent = 'Computer won !!!';
+    }
+}
 
 }
 // func to start each round
-function playGame(){
-    const humanChoice = getHumanChoice();
+let i = 1;
+function playGame(uin){
+    const humanChoice =  uin;
     const computerChoice = getComputerChoice();
+    g_round.textContent = `Round ${i}`;
     playRound(humanChoice, computerChoice);
-}
-// loop to invoke finction 5 times
-for(let i = 0; i < 5; i++){
-    console.log(`Round ${i+1}`)
-    
-    playGame();
     
 }
-console.log(humanScore, computerScore);
 
-if (humanScore == computerScore){
-    console.log("Tie!!!");
-}
-else if (humanScore > computerScore){
-    console.log("You won!!!");
-}
-else {
-    console.log("Computer won!!!")
-}
+// added event listener to invoke play game fnuction 
+let btns = document.querySelectorAll('#buttons');
+// use event delegation
+btns.forEach(button =>{
+    button.addEventListener('click', (e)=>{
+        playGame(e.target.textContent.toLowerCase());
+    })
+})
+
+
+
+
